@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express();
 
@@ -44,6 +44,13 @@ const run = async () => {
     app.post('/person', async (request, response) => {
       const newData = request.body;
       const result = await dataCollections.insertOne(newData);
+      response.send(result);
+    });
+
+    app.delete('/person/:id', async (request, response) => {
+      const id = request.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await dataCollections.deleteOne(query);
       response.send(result);
     });
 
