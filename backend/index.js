@@ -9,16 +9,17 @@ app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-//project1
-// YDgkp6X9ReKEMftF
-
 app.get('/', (request, response) => {
   response.send('this is backend');
 });
 
-// const uri = 'mongodb://localhost:27017';
-const uri =
-  'mongodb+srv://project1:YDgkp6X9ReKEMftF@mernstack-cluster.2mtsqtr.mongodb.net/?retryWrites=true&w=majority';
+// MERNProject
+// mernProjectOne
+
+const uri = 'mongodb://localhost:27017';
+
+// const uri =
+//   'mongodb+srv://MERNProject:mernProjectOne@mernstack-project.gegxeyn.mongodb.net/?retryWrites=true&w=majority';
 
 const client = new MongoClient(uri, {
   serverApi: {
