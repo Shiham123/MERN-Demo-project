@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [data, setData] = useState(null);
@@ -34,6 +35,9 @@ const HomePage = () => {
             <div key={index}>
               <h1>{description}</h1>
               <button onClick={() => handleDelete(_id)}>Delete</button>
+              <Link to={`/person/${_id}`}>
+                <button>Edit</button>
+              </Link>
             </div>
           );
         })}

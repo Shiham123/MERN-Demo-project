@@ -47,6 +47,28 @@ const run = async () => {
       response.send(result);
     });
 
+    app.get('/person/:id', async (request, response) => {
+      const id = request.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await dataCollections.findOne(query);
+      response.send(result);
+    });
+
+    app.put('/person/:id', async (request, response) => {
+      const id = request.params.id;
+      const filterId = { _id: new ObjectId(id) };
+
+      const personData = {
+        $set: {
+          title: request.body.title,
+          description: request.body.description,
+          price: request.body.price,
+        },
+      };
+      const result = await dataCollections.updateOne(filterId, personData);
+      response.send(result);
+    });
+
     app.delete('/person/:id', async (request, response) => {
       const id = request.params.id;
       const query = { _id: new ObjectId(id) };
