@@ -38,10 +38,32 @@ const run = async () => {
     const userDatabase = client.db('userDB');
     const userCollection = userDatabase.collection('user');
 
+    const emailDatabase = client.db('emailDB');
+    const emailCollection = emailDatabase.collection('emailPassword');
+
     app.get('/person', async (request, response) => {
       const cursor = dataCollections.find();
       const result = await cursor.toArray();
       response.send(result);
+    });
+
+    app.get('/person/:id', async (request, response) => {
+      const id = request.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await dataCollections.findOne(query);
+      response.send(result);
+    });
+
+    app.get('/user', async (request, response) => {
+      const cursor = userCollection.find();
+      const users = await cursor.toArray();
+      response.send(users);
+    });
+
+    app.get('/email', async (request, response) => {
+      const cursor = emailCollection.find();
+      const emailUser = await cursor.toArray();
+      response.send(emailUser);
     });
 
     app.post('/person', async (request, response) => {
@@ -50,10 +72,15 @@ const run = async () => {
       response.send(result);
     });
 
-    app.get('/person/:id', async (request, response) => {
-      const id = request.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await dataCollections.findOne(query);
+    app.post('/user', async (request, response) => {
+      const user = request.body;
+      const result = await userCollection.insertOne(user);
+      response.send(result);
+    });
+
+    app.post('/email', async (request, response) => {
+      const emailUser = request.body;
+      const result = await emailCollection.insertOne(emailUser);
       response.send(result);
     });
 
@@ -72,15 +99,16 @@ const run = async () => {
       response.send(result);
     });
 
-    app.get('/user', async (request, response) => {
-      const cursor = userCollection.find();
-      const users = await cursor.toArray();
-      response.send(users);
-    });
-
-    app.post('/user', async (request, response) => {
+    app.patch('/email', async (request, response) => {
       const user = request.body;
-      const result = await userCollection.insertOne(user);
+      const filter = { email: user.email };
+      const update = {
+        $set: {
+          lastLoggedAt: user.lastLoggedAt,
+        },
+      };
+
+      const result = await emailCollection.updateOne(filter, update);
       response.send(result);
     });
 

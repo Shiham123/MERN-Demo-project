@@ -5,6 +5,8 @@ import InputPerson from '../pages/input';
 import InputTwo from '../pages/inputTwo';
 import LoginPage from '../pages/login';
 import UsersPage from '../pages/users';
+import EmailLogin from '../pages/email';
+import SignIn from '../pages/sign';
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +27,8 @@ const routes = createBrowserRouter([
     element: <UsersPage />,
     loader: () => fetch('http://localhost:3000/user'),
   },
+  { path: '/email', element: <EmailLogin /> },
+  { path: '/sign', element: <SignIn /> },
 ]);
 
 export default routes;
