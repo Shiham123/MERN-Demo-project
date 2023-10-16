@@ -35,6 +35,9 @@ const run = async () => {
     const database = client.db('MERNStackDB');
     const dataCollections = database.collection('practiceDB');
 
+    const userDatabase = client.db('userDB');
+    const userCollection = userDatabase.collection('user');
+
     app.get('/person', async (request, response) => {
       const cursor = dataCollections.find();
       const result = await cursor.toArray();
@@ -69,10 +72,29 @@ const run = async () => {
       response.send(result);
     });
 
+    app.get('/user', async (request, response) => {
+      const cursor = userCollection.find();
+      const users = await cursor.toArray();
+      response.send(users);
+    });
+
+    app.post('/user', async (request, response) => {
+      const user = request.body;
+      const result = await userCollection.insertOne(user);
+      response.send(result);
+    });
+
     app.delete('/person/:id', async (request, response) => {
       const id = request.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await dataCollections.deleteOne(query);
+      response.send(result);
+    });
+
+    app.delete('/user/:id', async (request, response) => {
+      const id = request.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
       response.send(result);
     });
 

@@ -9,9 +9,23 @@ const LoginPage = () => {
     googleSignIn()
       .then((result) => {
         console.log(result.user);
-        const lastSignIn = result.user.metadata.lastSignInTime;
-        const lastLogin = result.user.metadata.lastLoginAt;
-        const data = { lastLogin, lastSignIn };
+
+        const userMail = result.user?.reloadUserInfo?.email;
+        const lastSignIn = result.user?.metadata?.lastSignInTime;
+        const lastLogin = result.user?.metadata?.lastLoginAt;
+        const data = { lastLogin, lastSignIn, userMail };
+
+        fetch('http://localhost:3000/user', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
+
         console.log(data);
       })
       .catch((error) => console.log(error));

@@ -4,6 +4,7 @@ import ErrorPage from '../pages/error';
 import InputPerson from '../pages/input';
 import InputTwo from '../pages/inputTwo';
 import LoginPage from '../pages/login';
+import UsersPage from '../pages/users';
 
 const routes = createBrowserRouter([
   {
@@ -19,6 +20,11 @@ const routes = createBrowserRouter([
     loader: ({ params }) => fetch(`http://localhost:3000/person/${params.id}`),
   },
   { path: '/login', element: <LoginPage /> },
+  {
+    path: '/users',
+    element: <UsersPage />,
+    loader: () => fetch('http://localhost:3000/user'),
+  },
 ]);
 
 export default routes;
